@@ -14,5 +14,25 @@ O objetivo deste trabalho consiste em analisar alguns atributos característicos
 
 ## Atributos
 
-Os atributos
+Os atributos do conjunto de dados são:
+
+| First Header  | Second Header |
+| ------------- | ------------- |
+| type          | object        |
+| fixed acidity | float64       |
+|volatile acidity | float64       |
+
+type                     object
+           float64
+volatile acidity        float64
+citric acid             float64
+residual sugar          float64
+chlorides               float64
+free sulfur dioxide     float64
+total sulfur dioxide    float64
+density                 float64
+pH                      float64
+sulphates               float64
+alcohol                  object
+quality                   int64
 
