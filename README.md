@@ -2,7 +2,7 @@
 Este repositório contém um projeto de análise de dados e algoritmos de aprendizado de máquina para predizer/classificar a qualidade
 de um vinho dado alguns parâmetros químicos.
 
-## Introdução
+# Introdução
 
 Vinhos são produtos amplamente consumidos em qualquer cultura. Tanto o vinho branco quanto o vinho tinto possuem características peculiares
 que podem ser apreciadas em diversos ambientes e ocasiões sociais. De acordo com alguns [sites especializados](https://vinepair.com/articles/chemical-compounds-wine-taste-smell/)
@@ -10,9 +10,38 @@ características químicas do vinho como teor alcólico e a presença de ácidos
 
 O projeto será abordado como um problema de classificação no qual a variável desejada é a qualidade, entre 0 e 10, dos vinhos.
 
-## Objetivo
+# Objetivo
 
 O objetivo deste trabalho consiste em analisar alguns atributos característicos de vinhos tintos e vinhos brancos e determinar a qualidade deste vinho.
+
+# Modelagem
+
+Para o modelagem do problema proposto, primeiramente foi identificado que se trata de uma classificação em torno da variável target, dada a discretização (0 a 10) dos valores de qualidade dos vinhos.
+
+A partir deste ponto, uma estratégia de feature engineering foi criada para entender correlações entre os atributos e possíveis outliers no conjunto de dados. A partir deste ponto, os outliers discrepantes são normalizados (atributo densidade) para um range aceitável. Feito esta abordagem de eliminação de possíveis outliers e linhas não padrão para o dataset, uma técnica de [PCA - Principal Component Analysis](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA) é aplicada para agrupar em função das componentes principais o conjunto de dados, adicionado assim atributos relevantes para auxiliar na tarefa de classificação dos modelos candidatos.
+
+Um ponto chave para o trabalho é criar dois modelos: um para cada tipo de vinho. Esta abordagem permite um desempenho melhor para ambos os tipos de vinho durante a etapa de treino e teste dos modelos.
+
+Para avaliar estes modelos e por se tratar de uma tarefa de classificação, as seguintes métricas foram escolhidas:
+
+* Precisão (**Precision**)
+* Acurácia (**Accuracy**)
+* Revocação (**Recall**)
+
+Essas métricas permitem ter uma visão geral da classificação realizada pelo modelo. A acurácia permite avaliar a quantidade de acertos em relação ao número de observações. Essa métrica nos dá uma visão geral do quão o modelo está condizente na tarefa de classificação. Já a precisão tem o objetivo de estabelecer o quanto o seu modelo está desempenhando bem a função para a qual ele foi feito. Por fim, a revocação é importante quando falsos negativos estão presentes na predição dos valores.
+
+Seis algoritmos de classificação foram testados no conjunto de dados para então se definir o melhor entre os seis que tiver um desempenho melhor nas métricas estabelecidas:
+
+* XGBClassifier
+* LogisticRegression
+* SVC
+* DecisionTreeClassifier
+* KNeighborsClassifier
+* GaussianNB
+
+Dada as circunstâncias do problema de qualidade de vinhos, para se escolher o modelo a ser utilizado as métricas de **precisão** e **acurácia** serão predominantes na análise, pois falsos positivos tem um impacto maior do que falsos negativos. Esta linha de pensamento se dá, pois um cliente que adquiri um vinho de qualidade alta e acaba tendo um vinho de menor qualidade, tem uma experiência negativa com a empresa/marca. Por outro lado, um falso negativo atesta que um vinho classificado com menor qualidade na classificação do modelo, mas que apresenta uma qualidade superior, acaba proporcionando ao cliente uma melhor experiência com a marca.
+
+Após esta análise exploratória + Feature engineering inicial foi estabelicido que alguns algoritmos de classificação poderiam ser bons candidatos a ter um desempenho melhor.
 
 ## Atributos
 
@@ -88,7 +117,7 @@ A figura abaixo demostra a análise do número de clusteres feita utilizando PCA
 
 ![PCA](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/PCA.png)
 
-### Matrix de Correlações
+### Matriz de Correlações
 
 Foi feito ainda um estudo de correlação entre os atributos.
 
@@ -100,5 +129,7 @@ As correlações que se destacam em função da qualidade do vinho são:
 * Cloretos;
 * Dióxido de enxofre total;
 
-Destacam-se ainda as correlações inversas entre os vinhos branco e vinho tinto em todos atributos.
+Destacam-se ainda as correlações inversas entre os vinhos branco e tinto em todos atributos.
+
+
 
