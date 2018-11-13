@@ -41,7 +41,14 @@ Seis algoritmos de classificação foram testados no conjunto de dados para ent�
 
 Dada as circunstâncias do problema de qualidade de vinhos, para se escolher o modelo a ser utilizado as métricas de **precisão** e **acurácia** serão predominantes na análise, pois falsos positivos tem um impacto maior do que falsos negativos. Esta linha de pensamento se dá, pois um cliente que adquiri um vinho de qualidade alta e acaba tendo um vinho de menor qualidade, tem uma experiência negativa com a empresa/marca. Por outro lado, um falso negativo atesta que um vinho classificado com menor qualidade na classificação do modelo, mas que apresenta uma qualidade superior, acaba proporcionando ao cliente uma melhor experiência com a marca.
 
-Após esta análise exploratória + Feature engineering inicial foi estabelicido que alguns algoritmos de classificação poderiam ser bons candidatos a ter um desempenho melhor.
+Por fim, os hiperparâmetros serão refinados utilizando algoritmo [Grid Search](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV). Os seguintes hiperparâmetros serão refinados:
+
+* n_estimators
+* learning_rate
+* colsample_bytree
+* max_depth
+* subsample
+* gamma
 
 ## Atributos
 
