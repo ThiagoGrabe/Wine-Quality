@@ -36,7 +36,7 @@ Os atributos do conjunto de dados são:
 
 Cada atributo foi analisado e teve a sua importância para a predição da qualidade do vinho estudada.
 
-# Análise Exploratória dos dados e Feature Engineering
+# Feature Engineering
 
 A análise dos dados se deu em alguns pontos cruciais para o desenvolvimento do trabalho. Analisar cada atributo e verificar a consistência dos dados apresentados.
 
@@ -50,7 +50,13 @@ Pode-se notar que a variável target, qualidade do vinho, tem sua concentração
 
 ![Boxplot](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/Countplot_quality%20map.png)
 
-### Formato desconhecido de algumas linhas no atributo "Alcohol"
+Além disso, uma visualização da distribuição dos dados em função da variável alvo foi feita para entender se as distribuições seguiam algum padrão específico além de distribuições normais.
+
+![Boxplot](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/kde_plot_distribution.png)
+
+Pode-se observar uma distribuição em suma normal dada a variável target.
+
+### Feature Engineering
 
 A coluna contendo informações do teor alcólico apresentou valores com excesso de pontos decimais.
 
@@ -59,7 +65,7 @@ A coluna contendo informações do teor alcólico apresentou valores com excesso
 ```
 As 40 linhas que apresentavam tais valores foram removidas do conjunto de dados. A decisão de excluir tais valores e não apenas substituir por algum valor padrão se deu pelo fato de que não os números não apresentaram nenhuma caracteristica como fator multiplicativo ou mesmo algum divisor que o faria ter sentido. Para não adicionar bias ao modelo, a decisão de excluir as linhas foi tomada.
 
-### Boxplot
+### Distribuição dos dados
 
 Fora realizado um conjunto de boxplot para análise da distribuição dos dados em função da variável target. Pode-se ainda observar alguns outliers, mas somente da variável densidade chamou a atenção, pois alguns valores ultrapassavam em cem vezes a densidade da água.
 
@@ -71,6 +77,28 @@ A solução para o atributo densidade foi dividir estes valores por múltiplos d
 
 Após a alteração os valores ficaram próximos do que é sensato para valores de densidade.
 
-### Feature Engineering
+### Agrupamentos
 
+Uma estratégia para auxiliar os modelos de classificação fora a criação de colunas com agrupamentos específicos dependendo da abordagem que se deseja. Foram realizados dois agrupamentos:
+
+1. Agrupamento em função do campo de valores de qualidade;
+2. Utilizando [PCA - Principal Component Analysis](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA) foi também gerada uma nova coluna que se relaciona com o número de clusters que podemos descrever a variância dos dados. Em suma, 99% da variância associada à variável target pode ser explicada por duas componentes principais.
+
+A figura abaixo demostra a análise do número de clusteres feita utilizando PCA para esta determinação.
+
+![PCA](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/PCA.png)
+
+### Matrix de Correlações
+
+Foi feito ainda um estudo de correlação entre os atributos.
+
+![PCA](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/Correlation%20map.png)
+
+As correlações que se destacam em função da qualidade do vinho são:
+
+* Volatilidade da acidez;
+* Cloretos;
+* Dióxido de enxofre total;
+
+Destacam-se ainda as correlações inversas entre os vinhos branco e vinho tinto em todos atributos.
 
