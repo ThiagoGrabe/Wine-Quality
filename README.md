@@ -18,9 +18,11 @@ O objetivo deste trabalho consiste em analisar alguns atributos característicos
 
 Para o modelagem do problema proposto, primeiramente foi identificado que se trata de uma classificação em torno da variável target, dada a discretização (0 a 10) dos valores de qualidade dos vinhos.
 
-A partir deste ponto, uma estratégia de feature engineering foi criada para entender correlações entre os atributos e possíveis outliers no conjunto de dados. A partir deste ponto, os outliers discrepantes são normalizados (atributo densidade) para um range aceitável. Feito esta abordagem de eliminação de possíveis outliers e linhas não padrão para o dataset, uma técnica de [PCA - Principal Component Analysis](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA) é aplicada para agrupar em função das componentes principais o conjunto de dados, adicionado assim atributos relevantes para auxiliar na tarefa de classificação dos modelos candidatos.
+A partir deste ponto, uma estratégia de feature engineering foi criada para entender correlações entre os atributos e possíveis outliers no conjunto de dados. Outliers são normalizados (atributo densidade) para um range aceitável. Feito esta abordagem de eliminação de  outliers, uma avaliação de dados faltantes e fora de padrão em cada linhas do dataset é realizado. É possível com essa abordagem eliminar dados não padronizados, como strings em lugar de números e caracteres desconhecidos, por exemplo. 
 
-Um ponto chave para o trabalho é criar dois modelos: um para cada tipo de vinho. Esta abordagem permite um desempenho melhor para ambos os tipos de vinho durante a etapa de treino e teste dos modelos.
+Após uma análise introdutória e correção de pontos no dataset, uma técnica de [PCA - Principal Component Analysis](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA) é aplicada para agrupar em função das componentes principais o conjunto de dados, adicionado assim atributos relevantes para auxiliar na tarefa de classificação dos modelos candidatos.
+
+Um ponto chave para o trabalho é criar dois modelos: um para cada tipo de vinho. Esta abordagem permite um desempenho melhor para ambos os tipos de vinho durante a etapa de treino e teste dos modelos. Um indício desta boa prática é a correlação totalmente inversa entre os tipos de vinho.
 
 Para avaliar estes modelos e por se tratar de uma tarefa de classificação, as seguintes métricas foram escolhidas:
 
@@ -88,11 +90,13 @@ Pode-se notar que a variável target, qualidade do vinho, tem sua concentração
 
 Além disso, uma visualização da distribuição dos dados em função da variável alvo foi feita para entender se as distribuições seguiam algum padrão específico além de distribuições normais.
 
-![KDE](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/kde_plot_distribution.png)
+![KDE](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/kde_plot_distribution2.png)
 
 Pode-se observar uma distribuição em suma normal dada a variável target.
 
 ### Feature Engineering
+
+## Data cleaning
 
 A coluna contendo informações do teor alcólico apresentou valores com excesso de pontos decimais.
 
@@ -100,8 +104,6 @@ A coluna contendo informações do teor alcólico apresentou valores com excesso
 131.333.333.333.333
 ```
 As 40 linhas que apresentavam tais valores foram removidas do conjunto de dados. A decisão de excluir tais valores e não apenas substituir por algum valor padrão se deu pelo fato de que não os números não apresentaram nenhuma caracteristica como fator multiplicativo ou mesmo algum divisor que o faria ter sentido. Para não adicionar bias ao modelo, a decisão de excluir as linhas foi tomada.
-
-### Distribuição dos dados
 
 Fora realizado um conjunto de boxplot para análise da distribuição dos dados em função da variável target. Pode-se ainda observar alguns outliers, mas somente da variável densidade chamou a atenção, pois alguns valores ultrapassavam em cem vezes a densidade da água.
 
@@ -113,7 +115,7 @@ A solução para o atributo densidade foi dividir estes valores por múltiplos d
 
 Após a alteração os valores ficaram próximos do que é sensato para valores de densidade.
 
-### Agrupamentos
+## Clustering
 
 Uma estratégia para auxiliar os modelos de classificação fora a criação de colunas com agrupamentos específicos dependendo da abordagem que se deseja. Foram realizados dois agrupamentos:
 
@@ -124,11 +126,11 @@ A figura abaixo demostra a análise do número de clusteres feita utilizando PCA
 
 ![PCA](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/PCA.png)
 
-### Matriz de Correlações
+## Matriz de Correlações
 
 Foi feito ainda um estudo de correlação entre os atributos.
 
-![corrmap](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/Correlation%20map2.png)
+![corrmap](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Correlation%20map2.png)
 
 As correlações que se destacam em função da qualidade do vinho são:
 
