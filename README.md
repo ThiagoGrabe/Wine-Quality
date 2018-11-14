@@ -285,11 +285,110 @@ O *[XGBoost](https://github.com/dmlc/xgboost)* possui alguns hiperparâmetros in
 
 A *[AWS](https://docs.aws.amazon.com/pt_br)* possui um pacote do *[XGBoost](https://github.com/dmlc/xgboost)* em sua solução de Machine Learning. Ela apresenta uma explicação interessante dos hiperparâmetros:
 
-| gamma            | A redução de perda mínima necessária para fazer uma partição adicional em um nó de folha da árvore. Quanto maior for o parâmetro, mais conservador será o algoritmo.Valores válidos: flutuante. Intervalo: [0,∞).Valor padrão: 0                                  |
+| Hiperparâmetro   | Descrição                                                                                                                                                                                                                                                         |
 |------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| gamma            | A redução de perda mínima necessária para fazer uma partição adicional em um nó de folha da árvore. Quanto maior for o parâmetro, mais conservador será o algoritmo.Valores válidos: flutuante. Intervalo: [0,∞).Valor padrão: 0                                  |
 | max_depth        | A profundidade máxima de uma árvore. Aumentar esse valor torna o modelo mais complexo e propenso a sofrer sobreajuste. 0 indica que não há limite. Um limite é necessário quando grow_policy=depth-wise.Valores válidos: inteiro. Intervalo: [0,∞)Valor padrão: 6 |
 | subsample        | Taxa de subsampling da instância de treinamento. Se você configurá-la como 0,5, o XGBoost aleatoriamente coletará metade das instâncias de dados para expandir as árvores. Isso evita o sobreajuste.Valores válidos: flutuante. Intervalo: [0,1].Valor padrão: 1  |
 | colsample_bytree | Taxa de subsampling de colunas ao criar cada árvore.Valores válidos: flutuante. Intervalo: [0,1].Valor padrão: 1                                                                                                                                                  |
 | n_estimators     | Número de árvores no algoritmo. Intervalo: [0,∞) Valor padrão 100                                                                                                                                                                                                 |
 | learning_rate    | Taxa de aprendizado ou peso para fator de correção às novas árvores. Intervalo [0,1]. Valor padrão 0.1                                                                                                                                                            |
 |                  |                                                                                                                                                                                                                                                                   |
+
+#### Resultado da otimização dos hiperparâmetros
+
+Os valores ótimos encontrados para os hiperparâmetros foram:
+
+##### Vinho Tinto
+
+| Hiperparâmetro  | Valores Testados |
+| ------------- | ------------- |
+| n_estimators           |100|
+| learning_rate        |0.07|
+|colsample_bytree             |0.7|
+|max_depth             |7|
+|subsample             |0.8|
+|gamma             |0|
+
+#### Vinho Branco
+
+| Hiperparâmetro  | Valores Testados |
+| ------------- | ------------- |
+| n_estimators           |200|
+| learning_rate        |0.05|
+|colsample_bytree             |0.5|
+|max_depth             |10|
+|subsample             |0.8|
+|gamma             |0.1|
+
+#### Vinhos Branco e Tinto
+
+| Hiperparâmetro  | Valores Testados |
+| ------------- | ------------- |
+| n_estimators           |200|
+| learning_rate        |0.05|
+|colsample_bytree             |0.7|
+|max_depth             |10|
+|subsample             |0.8|
+|gamma             |0|
+
+### Modelos Finais
+
+Após a otimização dos hiperparâmetros de cada modelo, os três modelos foram treinados e as métricas novamente avaliadas. Um ponto importante neste passo é verificar se o modelo final é suficientemente bom para atender requisitos de clientes. Para este ponto, uma matriz de confunção foi feita para entender a quantidade de falsos positivos e falsos negativos o modelo consegue captar.
+
+#### Métricas finais: Modelo *Vinhos Tintos*
+
+| Modelos | Precision | Accuracy | Recall |
+|:-------:|:---------:|:--------:|:------:|
+| Inicial |   0.6057  |  0.6865  | 0.5775 |
+|  Final  |   0.6502  |  0.7398  | 0.6318 |
+
+#### Métricas finais: Modelo *Vinhos Brancos*
+
+| Modelos | Precision | Accuracy | Recall |
+|:-------:|:---------:|:--------:|:------:|
+| Inicial |   0.7260  |  0.6208  | 0.6348 |
+|  Final  |   0.8106  |  0.7235  | 0.7010 |
+
+#### Métricas finais: Modelo *Vinhos Tintos e Brancos*
+
+| Modelos | Precision | Accuracy | Recall |
+|:-------:|:---------:|:--------:|:------:|
+| Inicial |   0.6361  |  0.6146  | 0.5266 |
+|  Final  |   0.6948  |  0.7353  | 0.6198 |
+
+Em todos os casos a otimização dos modelos obteve um ganho considerável em todas as métricas propostas.
+
+Em um cenário de vendas de vinhos tintos e brancos, podemos pensar que falsos negativos (vinhos classificados como piores do que realmente são) possuem pesos menores do que falsos positivos (vinhos classificados como melhores do que realmente são). Esta abordagem é coerente com o seguinte pensamento:
+
+>*"Enquanto cliente eu não gostaria de comprar ou degustar um vinho que seja classificado com ótimo e, na realidade, ele é ruim. Em contrapartida, o cliente não teria problemas em comprar ou degustar um vinho classificado como médio e, na realidade, ele é excelente"*
+
+Esta ideia pode ser validade com matrizes de confusão para cada modelo:
+
+| ![redwine_confusionmatrix_final](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/confusion_matrix_redwine_final.png) | 
+|:--:| 
+| *Matriz de confusão para o modelo de vinhos tintos* |
+
+
+| ![whitewine_confusionmatrix_final](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/confusion_matrix_whitewine_final.png) | 
+|:--:| 
+| *Matriz de confusão para o modelo de vinhos brancos* |
+
+| ![wines_confusionmatrix_final](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/confusion_matrix_wines_final.png) | 
+|:--:| 
+| *Matriz de confusão para o modelo de vinhos tintos e brancos* |
+
+Pode-se observar pelas matrizes que para os todos os modelos, a classificação em sua maioria é feita de forma correta com alguns falsos positivos e falsos negativos.
+
+### Conclusão
+
+Pode-se concluir pelo estudo que os modelos criados apresentam boa representação dos dados pela análise das métricas escolhidas e, principalmente, pelos falsos positivos representarem uma fatia pequena do conjunto total de dados.
+
+Ainda pelo estudo considero que, caso haja possibilidade, seja utilizado um modelo distinto para cada tipo de vinho. Ao utilizar o modelo geral para vinhos tintos e brancos em vinhos brancos temos um decréscimo de desempenho do modelo. Entretanto, deve-se entender como o modelo seria aplicado em ambientes de produção.
+
+Por fim, há bastante espaço para melhorar o desempenho dos modelos. Acredito que uma acurácia em torno de 0.75 pontos seja ainda baixa para um modelo de classificação. Alguns pontos de melhoria estão listados abaixo:
+
+* Uma análise dos atributos mais profunda. Entender *outliers* em todas as *features* e decidir se devemos trabalhar em cima destes valores. Enfim, realizar um *Feature Engineering* mais elaborado abordando várias hipóteses.
+* Aumentar a base de dados é sempre um caminho que tende a ser favorável no desempenho do modelo. Sendo assim, adicionar mais dados e atributos relavantes seja uma ótima forma de melhorar os modelos.
+* Realizar um estudo mais aprofundado de outro algoritmo de classificação. O *Support Vector Machine* se mostrou promissor e com uma otimização de hiperparâmetros e os selecionando bem, pode-se obter bons resultados.
+* Realizar um outro estudo com outras métricas que podem trazer *insights* diferentes da abordagem dada ao problema. Pode-se pensar em *F1 Score*, *F-Beta* e *ROC Curve*.
