@@ -223,7 +223,7 @@ Para cada modelo de classificação os treinamentos e testes foram realizados de
 
 Como houveram duas abordagens para o problema (tipos de vinhos avaliados separadamente e modelo único para os vinhos), houveram três treinamentos e, consequentemente, três resultados que serão apresentados abaixo:
 
-##### Resultados de treino para os dados de *Vinhos Brancos*
+#### Resultados de treino para os dados de *Vinhos Brancos*
 
 | Model for   White Wine | Precision (Training) | Accuracy Score (Training) | Recall (Training) | Precision (Test) | Accuracy Score (Test) | Recall (Test) | Training Set | Testing Set |
 |:----------------------:|:--------------------:|:-------------------------:|:-----------------:|:----------------:|:---------------------:|:-------------:|:------------:|:-----------:|
@@ -234,7 +234,7 @@ Como houveram duas abordagens para o problema (tipos de vinhos avaliados separad
 |  KNeighborsClassifier  |       0.552262       |          0.646877         |      0.374798     |     0.301815     |        0.459404       |    0.260629   |  (3891, 13)  |  (973, 13)  |
 |       GaussianNB       |       0.617573       |          0.482652         |      0.603063     |     0.632883     |        0.508736       |    0.656236   |  (3891, 13)  |  (973, 13)  |
 
-##### Resultados de treino para os dados de *Vinhos Tintos*
+#### Resultados de treino para os dados de *Vinhos Tintos*
 
 |  Model for   Red Wine  | Precision (Training) | Accuracy Score (Training) | Recall (Training) | Precision (test) | Accuracy Score (test) | Recall (test) | Training Set | Testing Set |
 |:----------------------:|:--------------------:|:-------------------------:|:-----------------:|:----------------:|:---------------------:|:-------------:|:------------:|:-----------:|
@@ -245,7 +245,7 @@ Como houveram duas abordagens para o problema (tipos de vinhos avaliados separad
 |  KNeighborsClassifier  |       0.672606       |          0.66248          |      0.387217     |     0.313748     |        0.501567       |    0.27319    |  (1274, 13)  |  (319, 13)  |
 |       GaussianNB       |        0.64173       |          0.533752         |      0.659428     |     0.543269     |        0.539185       |    0.526828   |  (1274, 13)  |  (319, 13)  |
 
-##### Resultados de treino para os dados dos vinhos branco e tinto
+#### Resultados de treino para os dados dos vinhos branco e tinto
 
 | Model   for Both Wine Types | Precision (Training) | Accuracy Score (Training) | Recall (Training) | Precision (test) | Accuracy Score (test) | Recall (test) | Training Set | Testing Set |
 |:---------------------------:|:--------------------:|:-------------------------:|:-----------------:|:----------------:|:---------------------:|:-------------:|:------------:|:-----------:|
@@ -256,6 +256,40 @@ Como houveram duas abordagens para o problema (tipos de vinhos avaliados separad
 |     KNeighborsClassifier    |       0.524822       |          0.638529         |      0.355194     |     0.280395     |        0.499226       |    0.229848   |  (5165, 15)  |  (1292, 15) |
 |          GaussianNB         |       0.512314       |          0.468151         |      0.59695      |     0.513026     |        0.487616       |    0.486432   |  (5165, 15)  |  (1292, 15) |
 
-##### Considerações finais na escolha do modelo
+### Considerações finais na escolha do modelo
 
 Pode-se verificar que o *XGBClassifier* apresentou a melhor desempenhoao se analisar a precisão e acurácia. Um ponto bem importante é que o modelo *Decision Tree Classifier* apresentou um desempnho de acurácia superior para o modelo e que todos os vinhos estão contidos no conjunto de dados. Porém, pode-se observar um problema de *overfitting* em todos os casos, haja vista uma pontuação de treinamento igual a 1 em todos os casos e uma redução considerável no conjunto de testes. Vale ressaltar que, tendo em vista este cenário, um modelo com este comportamento de *overfitting* não teria um desempenho aceitável quando uma nova entrada de dados ocorrer.
+
+#### Modelo escolhido: XGBoost
+
+
+O *[XGBoost](https://github.com/dmlc/xgboost)* (eXtreme Gradient Boosting) é uma conhecida e eficiente implementação de código aberto do algoritmo baseado em árvores de aumento de gradiente. O aumento de gradiente é um algoritmo de aprendizagem supervisionada que tenta prever com precisão uma variável de destino. Para isso, combina as estimativas de um conjunto de modelos mais simples e mais fracos. O XGBoost tem excelente desempenho em competições de machine learning, pois é mais robusto ao lidar com uma variedade de tipos de dados, relacionamentos e distribuições, bem como com um grande número de hiperparâmetros que podem ser aperfeiçoados e ajustadas para um cenário mais apropriado. Essa flexibilidade faz do XGBoost uma escolha consistente para problemas de regressão, classificação (binária e multiclasse) e pontuação.
+[Referência](https://docs.aws.amazon.com/pt_br/sagemaker/latest/dg/xgboost.html)
+
+### Tuning dos modelos
+
+Nesta etapa um aprimoramento dos modelos será realizado utilizando um algoritmo de busca dos melhores hiperparâmetros para um dado modelo. O algoritmo escolhido é o *[Grid Search](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html)*. Esta técnica realiza uma busca exaustiva entre uma lista especificada de hiperparâmetros para o modelo. Uma métrica deve ser associada para avaliação e, no caso deste trabalho, a métrica utilizada foi a acurácia.
+
+#### Hyperparameters (Hiperparâmetros)
+
+O *[XGBoost](https://github.com/dmlc/xgboost)* possui alguns hiperparâmetros interessantes para classificação. Os escolhidos para esete trabalho foram:
+
+| Hiperparâmetro  | Valores Testados |
+| ------------- | ------------- |
+| n_estimators           |100, 150, 200|
+| learning_rate        |0.05, 0.07, 0.4|
+|colsample_bytree             |0.5, 0.7, 1|
+|max_depth             |5, 7, 10|
+|subsample             |0.6, 0.7, 0.8|
+|gamma             |0, 0.1, 0.3|
+
+A *[AWS](https://docs.aws.amazon.com/pt_br)* possui um pacote do *[XGBoost](https://github.com/dmlc/xgboost)* em sua solução de Machine Learning. Ela apresenta uma explicação interessante dos hiperparâmetros:
+
+| gamma            | A redução de perda mínima necessária para fazer uma partição adicional em um nó de folha da árvore. Quanto maior for o parâmetro, mais conservador será o algoritmo.Valores válidos: flutuante. Intervalo: [0,∞).Valor padrão: 0                                  |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| max_depth        | A profundidade máxima de uma árvore. Aumentar esse valor torna o modelo mais complexo e propenso a sofrer sobreajuste. 0 indica que não há limite. Um limite é necessário quando grow_policy=depth-wise.Valores válidos: inteiro. Intervalo: [0,∞)Valor padrão: 6 |
+| subsample        | Taxa de subsampling da instância de treinamento. Se você configurá-la como 0,5, o XGBoost aleatoriamente coletará metade das instâncias de dados para expandir as árvores. Isso evita o sobreajuste.Valores válidos: flutuante. Intervalo: [0,1].Valor padrão: 1  |
+| colsample_bytree | Taxa de subsampling de colunas ao criar cada árvore.Valores válidos: flutuante. Intervalo: [0,1].Valor padrão: 1                                                                                                                                                  |
+| n_estimators     | Número de árvores no algoritmo. Intervalo: [0,∞) Valor padrão 100                                                                                                                                                                                                 |
+| learning_rate    | Taxa de aprendizado ou peso para fator de correção às novas árvores. Intervalo [0,1]. Valor padrão 0.1                                                                                                                                                            |
+|                  |                                                                                                                                                                                                                                                                   |
