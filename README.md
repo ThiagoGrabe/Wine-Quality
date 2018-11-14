@@ -95,8 +95,6 @@ Além disso, uma visualização da distribuição dos dados em função da vari�
 
 Pode-se observar uma distribuição em suma normal dada a variável target.
 
-## Feature Engineering
-
 ### Data cleaning
 
 A coluna contendo informações do teor alcólico apresentou valores com excesso de pontos decimais.
