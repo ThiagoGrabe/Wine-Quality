@@ -34,12 +34,13 @@ Essas métricas permitem ter uma visão geral da classificação realizada pelo 
 
 Seis algoritmos de classificação foram testados no conjunto de dados para então se definir o melhor entre os seis que tiver um desempenho melhor nas métricas estabelecidas:
 
-* XGBClassifier
-* LogisticRegression
-* SVC
-* DecisionTreeClassifier
-* KNeighborsClassifier
-* GaussianNB
+* [XGBClassifier](https://xgboost.readthedocs.io/en/latest/index.html)
+* [LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
+* [SVC](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
+* [DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
+* [KNeighborsClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
+* [GaussianNB](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html)
+
 
 Dada as circunstâncias do problema de qualidade de vinhos, para se escolher o modelo a ser utilizado as métricas de **precisão** e **acurácia** serão predominantes na análise, pois falsos positivos tem um impacto maior do que falsos negativos. Esta linha de pensamento se dá, pois um cliente que adquiri um vinho de qualidade alta e acaba tendo um vinho de menor qualidade, tem uma experiência negativa com a empresa/marca. Por outro lado, um falso negativo atesta que um vinho classificado com menor qualidade na classificação do modelo, mas que apresenta uma qualidade superior, acaba proporcionando ao cliente uma melhor experiência com a marca.
 
@@ -94,9 +95,9 @@ Além disso, uma visualização da distribuição dos dados em função da vari�
 
 Pode-se observar uma distribuição em suma normal dada a variável target.
 
-### Feature Engineering
+## Feature Engineering
 
-## Data cleaning
+### Data cleaning
 
 A coluna contendo informações do teor alcólico apresentou valores com excesso de pontos decimais.
 
@@ -115,7 +116,7 @@ A solução para o atributo densidade foi dividir estes valores por múltiplos d
 
 Após a alteração os valores ficaram próximos do que é sensato para valores de densidade.
 
-## Clustering
+### Clustering
 
 Uma estratégia para auxiliar os modelos de classificação fora a criação de colunas com agrupamentos específicos dependendo da abordagem que se deseja. Foram realizados dois agrupamentos:
 
@@ -126,7 +127,7 @@ A figura abaixo demostra a análise do número de clusteres feita utilizando PCA
 
 ![PCA](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/PCA.png)
 
-## Matriz de Correlações
+### Matriz de Correlações
 
 Foi feito ainda um estudo de correlação entre os atributos.
 
@@ -138,7 +139,83 @@ As correlações que se destacam em função da qualidade do vinho são:
 * Cloretos;
 * Dióxido de enxofre total;
 
-Destacam-se ainda as correlações inversas entre os vinhos branco e tinto em todos atributos. 
+Destacam-se ainda as correlações inversas entre os vinhos branco e tinto em todos atributos.
 
+### Considerações Finais - Data Engineering
 
+Após uma análise exploratória dos dados e uma limpeza em algumas *features*, foram gerados datasets para a criação dos modelos de Machine Learning considerando a classificação da qualidade dos vinhos.
+
+A matriz de correlação traz uma fundamental informação sobre a correlação inversa dos vinhos tinto e branco em relação aos atributos do conjunto de dados.
+
+Duas etapas de *Data Cleaning* foram feitas: a primeira na remoção de números não padronizados do atributo teor alcólico e a segunda foi a normalização de algumas densidades que apresentavam valores muito altos para os valores aceitáveis.
+
+Além disso, as três principais *features* são o teor alcólico, a quantidade de sulfatos e a acidez fixa dos vinhos.
+
+Pode-se ainda agrupar os dados conforme um algoritmo de *Principal Component Analysis* que mostrou que a 99% variância da qualidade do vinho pode ser explicada por três componentes. Realizando os *Clusteres* necessários foi possível melhorar o desempenho do algoritmo de aprendizagem de máquina.
+
+## Machine Learning
+
+Nesta etapa do trabalho, algoritmos de classificação são escolhidos e testados para entender qual tem o melhor desempenho segundo algumas métricas específicas. Uma estratégia ainda foi dividir o conjunto de dados original
+
+### Modelos de classificação
+
+Para a tarefa de classificação os seguintes modelos foram escolhidos como possíveis candidatos para classificar a qualidade dos vinhos tinto e branco em uma escala de 0 a 10:
+
+* [XGBClassifier](https://xgboost.readthedocs.io/en/latest/index.html)
+* [LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
+* [SVC](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
+* [DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)
+* [KNeighborsClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
+* [GaussianNB](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html)
+
+Esses modelos apresentam características distantas na forma de realizar a classificação dos dados. Destacam-se *XGBoost* e *Support Vector Machine* que apresentam ótimos resultados quando se pesquisa em algumas referências:
+
+[Article 01](https://www.quora.com/What-is-better-k-nearest-neighbors-algorithm-k-NN-or-Support-Vector-Machine-SVM-classifier-Which-algorithm-is-mostly-used-practically-Which-algorithm-guarantees-reliable-detection-in-unpredictable-situations) - Comparison KNN and SVM
+
+[Article 02](https://www.quora.com/What-are-the-advantages-disadvantages-of-using-Gradient-Boosting-over-Random-Forests) - Advantages and disadvantages of using Gradient Boosting over Random Forest.
+
+### Métricas
+
+Para avaliar estes modelos e por se tratar de uma tarefa de classificação, as seguintes métricas foram escolhidas:
+
+* Precisão (**Precision**)
+* Acurácia (**Accuracy**)
+* Revocação (**Recall**)
+
+Tanto a precisão quanto acurácia dos modelos serão avaliadas e a revocação será utilizada como auxiliar. Por fim, será estabelicido uma [matrix de confusão](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html) para validar o modelo e analisar os falsos positivos e falsos negativos.
+
+### Conjunto de dados final
+
+Após toda a etapa de pre processamento do conjunto de dados, um dataset com alguns atributos adicionais será utilizado para treinar e testar o modelo. Os atributos são:
+
+| Atributo  | Tipo |
+| ------------- | ------------- |
+|fixed acidity           |float64|
+|volatile acidity        |float64|
+|citric acid             |float64|
+|residual sugar          |float64|
+|chlorides               |float64|
+|free sulfur dioxide     |float64|
+|total sulfur dioxide    |float64|
+|density                 |float64|
+|pH                      |float64|
+|sulphates               |float64|
+|alcohol                 |float64|
+|quality                   |int64|
+|Red                       |int64|
+|White                    | int64|
+|group_quality             |int64|
+|Clusters PCA              |int64|
+
+Para treinamento foram utilizadas as seguintes proporções dos dados para treinamento e teste dos modelos:
+
+| Treino  | Teste |
+| ------------- | ------------- |
+|80%          |20%|
+
+Esta divisão foi feita utilizando um algoritmo chamado *[Train Test Split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html)* que desempenha esta função de dividir o conjunto de dados de forma a obedecer as proporções definidas. 
+
+Para cada treino foi estabelecido uma *seed* para repetitibilidade do processo.
+
+### Treinamento e teste
 
