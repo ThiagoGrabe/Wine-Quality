@@ -130,7 +130,7 @@ A figura abaixo demostra a análise do número de clusteres feita utilizando PCA
 
 Foi feito ainda um estudo de correlação entre os atributos.
 
-![corrmap](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Correlation%20map2.png)
+![corrmap](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/Correlation%20map2.png)
 
 As correlações que se destacam em função da qualidade do vinho são:
 
