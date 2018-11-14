@@ -219,3 +219,43 @@ Para cada treino foi estabelecido uma *seed* para repetitibilidade do processo.
 
 ### Treinamento e teste
 
+Para cada modelo de classificação os treinamentos e testes foram realizados dentro de um mesmo método e os resultados são apresentados no formato tabular para cada modelo e métrica associada.
+
+Como houveram duas abordagens para o problema (tipos de vinhos avaliados separadamente e modelo único para os vinhos), houveram três treinamentos e, consequentemente, três resultados que serão apresentados abaixo:
+
+##### Resultados de treino para os dados de *Vinhos Brancos*
+
+| Model for   White Wine | Precision (Training) | Accuracy Score (Training) | Recall (Training) | Precision (Test) | Accuracy Score (Test) | Recall (Test) | Training Set | Testing Set |
+|:----------------------:|:--------------------:|:-------------------------:|:-----------------:|:----------------:|:---------------------:|:-------------:|:------------:|:-----------:|
+|      XGBClassifier     |       0.870611       |          0.689026         |      0.746337     |     0.726032     |        0.620761       |    0.634778   |  (3891, 13)  |  (973, 13)  |
+|   LogisticRegression   |        0.51987       |          0.561809         |      0.358286     |     0.478961     |        0.586845       |    0.411973   |  (3891, 13)  |  (973, 13)  |
+|           SVC          |       0.777663       |          0.802621         |      0.507582     |     0.449035     |        0.558068       |    0.299136   |  (3891, 13)  |  (973, 13)  |
+| DecisionTreeClassifier |           1          |             1             |         1         |     0.425347     |        0.611511       |    0.416755   |  (3891, 13)  |  (973, 13)  |
+|  KNeighborsClassifier  |       0.552262       |          0.646877         |      0.374798     |     0.301815     |        0.459404       |    0.260629   |  (3891, 13)  |  (973, 13)  |
+|       GaussianNB       |       0.617573       |          0.482652         |      0.603063     |     0.632883     |        0.508736       |    0.656236   |  (3891, 13)  |  (973, 13)  |
+
+##### Resultados de treino para os dados de *Vinhos Tintos*
+
+|  Model for   Red Wine  | Precision (Training) | Accuracy Score (Training) | Recall (Training) | Precision (test) | Accuracy Score (test) | Recall (test) | Training Set | Testing Set |
+|:----------------------:|:--------------------:|:-------------------------:|:-----------------:|:----------------:|:---------------------:|:-------------:|:------------:|:-----------:|
+|      XGBClassifier     |       0.918741       |          0.820251         |      0.809426     |     0.605677     |        0.68652        |    0.57752    |  (1274, 13)  |  (319, 13)  |
+|   LogisticRegression   |       0.632669       |          0.598901         |      0.448074     |      0.49985     |        0.586207       |    0.422588   |  (1274, 13)  |  (319, 13)  |
+|           SVC          |       0.552841       |          0.732339         |      0.350718     |      0.37491     |        0.583072       |    0.306665   |  (1274, 13)  |  (319, 13)  |
+| DecisionTreeClassifier |           1          |             1             |         1         |     0.605483     |        0.648903       |    0.606059   |  (1274, 13)  |  (319, 13)  |
+|  KNeighborsClassifier  |       0.672606       |          0.66248          |      0.387217     |     0.313748     |        0.501567       |    0.27319    |  (1274, 13)  |  (319, 13)  |
+|       GaussianNB       |        0.64173       |          0.533752         |      0.659428     |     0.543269     |        0.539185       |    0.526828   |  (1274, 13)  |  (319, 13)  |
+
+##### Resultados de treino para os dados dos vinhos branco e tinto
+
+| Model   for Both Wine Types | Precision (Training) | Accuracy Score (Training) | Recall (Training) | Precision (test) | Accuracy Score (test) | Recall (test) | Training Set | Testing Set |
+|:---------------------------:|:--------------------:|:-------------------------:|:-----------------:|:----------------:|:---------------------:|:-------------:|:------------:|:-----------:|
+|        XGBClassifier        |       0.858103       |          0.66273          |      0.704499     |     0.636081     |        0.614551       |    0.526602   |  (5165, 15)  |  (1292, 15) |
+|      LogisticRegression     |       0.662984       |          0.566699         |      0.371123     |     0.391837     |        0.571981       |    0.35126    |  (5165, 15)  |  (1292, 15) |
+|             SVC             |       0.758254       |          0.75547          |      0.43015      |      0.53991     |        0.56192        |    0.257796   |  (5165, 15)  |  (1292, 15) |
+|    DecisionTreeClassifier   |           1          |             1             |         1         |     0.595025     |        0.655573       |    0.535367   |  (5165, 15)  |  (1292, 15) |
+|     KNeighborsClassifier    |       0.524822       |          0.638529         |      0.355194     |     0.280395     |        0.499226       |    0.229848   |  (5165, 15)  |  (1292, 15) |
+|          GaussianNB         |       0.512314       |          0.468151         |      0.59695      |     0.513026     |        0.487616       |    0.486432   |  (5165, 15)  |  (1292, 15) |
+
+##### Considerações finais na escolha do modelo
+
+Pode-se verificar que o *XGBClassifier* apresentou a melhor desempenhoao se analisar a precisão e acurácia. Um ponto bem importante é que o modelo *Decision Tree Classifier* apresentou um desempnho de acurácia superior para o modelo e que todos os vinhos estão contidos no conjunto de dados. Porém, pode-se observar um problema de *overfitting* em todos os casos, haja vista uma pontuação de treinamento igual a 1 em todos os casos e uma redução considerável no conjunto de testes. Vale ressaltar que, tendo em vista este cenário, um modelo com este comportamento de *overfitting* não teria um desempenho aceitável quando uma nova entrada de dados ocorrer.
