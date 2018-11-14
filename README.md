@@ -136,7 +136,7 @@ As correlações que se destacam em função da qualidade do vinho são:
 * Cloretos;
 * Dióxido de enxofre total;
 
-Destacam-se ainda as correlações inversas entre os vinhos branco e tinto em todos atributos.
+Destacam-se ainda as correlações inversas entre os vinhos branco e tinto em todos atributos. 
 
 
 
