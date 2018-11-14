@@ -72,7 +72,7 @@ Os atributos do conjunto de dados são:
 |alcohol                  |object|
 |quality                   |int64|
 
-Cada atributo foi analisado e teve a sua importância para a predição da qualidade do vinho estudada.
+Cada atributo foi analisado e teve a sua importância para a predição da qualidade do vinho estudada. Esses dados, ainda crus, serão tratados na etapa de **Feature Engineering**
 
 # Feature Engineering
 
