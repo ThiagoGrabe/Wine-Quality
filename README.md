@@ -84,11 +84,11 @@ A primeira etapa de exploração é entender possíveis discrepâncias em valore
 
 Pode-se notar que a variável target, qualidade do vinho, tem sua concentração maior em torno do valor 6.
 
-![Boxplot](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/Countplot_quality%20map.png)
+![countplot](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/Countplot_quality%20map.png)
 
 Além disso, uma visualização da distribuição dos dados em função da variável alvo foi feita para entender se as distribuições seguiam algum padrão específico além de distribuições normais.
 
-![Boxplot](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/kde_plot_distribution.png)
+![KDE](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/kde_plot_distribution.png)
 
 Pode-se observar uma distribuição em suma normal dada a variável target.
 
@@ -128,7 +128,7 @@ A figura abaixo demostra a análise do número de clusteres feita utilizando PCA
 
 Foi feito ainda um estudo de correlação entre os atributos.
 
-![PCA](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/Correlation%20map.png)
+![corrmap](https://github.com/ThiagoGrabe/Wine-Quality/blob/master/Images/Correlation%20map2.png)
 
 As correlações que se destacam em função da qualidade do vinho são:
 
