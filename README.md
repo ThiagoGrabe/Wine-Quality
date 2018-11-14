@@ -361,7 +361,7 @@ Em todos os casos a otimização dos modelos obteve um ganho considerável em to
 
 Em um cenário de vendas de vinhos tintos e brancos, podemos pensar que falsos negativos (vinhos classificados como piores do que realmente são) possuem pesos menores do que falsos positivos (vinhos classificados como melhores do que realmente são). Esta abordagem é coerente com o seguinte pensamento:
 
->*"Enquanto cliente eu não gostaria de comprar ou degustar um vinho que seja classificado com ótimo e, na realidade, ele é ruim. Em contrapartida, o cliente não teria problemas em comprar ou degustar um vinho classificado como médio e, na realidade, ele é excelente"*
+>*"Enquanto cliente eu não gostaria de comprar ou degustar um vinho que seja classificado como ótimo e, na realidade, ele é ruim. Em contrapartida, o como cliente eu não teria problemas em comprar ou degustar um vinho classificado como médio e, na realidade, ele é excelente"*
 
 Esta ideia pode ser validade com matrizes de confusão para cada modelo:
 
